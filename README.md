@@ -39,13 +39,6 @@ wires them up.
 - `allowDeselect={false}` on the mobility Select so the value can never
   become `null`.
 
-## Not done
-
-- <anything you ran out of time for, or "nothing">
-
-## Time spent
-
-Roughly <N> hours.
 
 ## Data
 
