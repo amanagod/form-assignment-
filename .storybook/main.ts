@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite';
-
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css'; 
 const config: StorybookConfig = {
   core: {
     disableWhatsNewNotifications: true,
