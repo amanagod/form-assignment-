@@ -1,34 +1,52 @@
-# Mantine Vite template
+# Geriatric Care Assessment Form
 
-## Features
+A single-page assessment form for a visiting nurse. React 19 + TypeScript +
+Mantine + Zod. All validation rules live in one Zod schema; the UI only
+wires them up.
 
-This template comes with the following features:
+## Running it
 
-- [PostCSS](https://postcss.org/) with [mantine-postcss-preset](https://mantine.dev/styles/postcss-preset)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Storybook](https://storybook.js.org/)
-- [Vitest](https://vitest.dev/) setup with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-- Oxlint setup for TypeScript and React sources
+    yarn install
+    yarn dev        # http://localhost:5173
 
-## npm scripts
+## Checks
 
-## Build and dev scripts
+    yarn test       # typecheck, format, lint, tests, build
+    yarn vitest     # tests only
 
-- `dev` – start development server
-- `build` – build production version of the app
-- `preview` – locally preview production build
+## Structure
 
-### Testing scripts
+    src/features/assessment/
+      schema.ts                the Zod schema (given by the brief, unchanged)
+      AssessmentForm.tsx       the form
+      mobilityOptions.ts       Select options derived from MOBILITY
+      sampleData.ts            the valid fixture (invented data)
+      schema.test.ts           age boundary
+      AssessmentForm.test.tsx  submit path
 
-- `typecheck` – checks TypeScript types
-- `lint` – runs oxlint and stylelint
-- `format:test` – checks files with oxfmt
-- `vitest` – runs vitest tests
-- `vitest:watch` – starts vitest watch
-- `test` – runs `vitest`, `format:test`, `lint` and `typecheck` scripts
+## Decisions
 
-### Other scripts
+- Draft vs parsed values. Empty initial values cannot satisfy `Assessment`,
+  so the form's state is a mapped type derived from it rather than a second
+  hand-written interface. The submit handler calls `assessmentSchema.parse()`
+  once, after validation has passed, to get a real `Assessment` for the
+  success panel.
+- No clamping on the number inputs. Mantine's `NumberInput` rewrites
+  out-of-range values by default. That is turned off so an invalid clinical
+  score reaches Zod and is rejected rather than silently corrected.
+- Dates are `YYYY-MM-DD` strings throughout. No `Date` objects, matching
+  `z.iso.date()`.
+- `allowDeselect={false}` on the mobility Select so the value can never
+  become `null`.
 
-- `storybook` – starts storybook dev server
-- `storybook:build` – build production storybook bundle to `storybook-static`
-- `format:write` – formats all files with oxfmt
+## Not done
+
+- <anything you ran out of time for, or "nothing">
+
+## Time spent
+
+Roughly <N> hours.
+
+## Data
+
+All patient data in this repo is invented.
